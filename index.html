@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vedara - Chisa Character Profile</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --black: #000;
+            --white: #fff;
+            --light-gray: #f0f0f0;
+            --medium-gray: #888;
+            --dark-gray: #333;
+            --very-light-gray: #f8f8f8;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+        }
+        
+        /* Header styles */
+        header {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 2rem;
+        }
+        
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--medium-gray);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--white);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero section */
+        .hero {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 6rem 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255,255,255,0.05) 0%, transparent 20%);
+            z-index: 0;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            color: var(--medium-gray);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--white);
+            color: var(--black);
+            padding: 0.8rem 2rem;
+            text-decoration: none;
+            border-radius: 0;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 1px solid var(--white);
+        }
+        
+        .btn:hover {
+            background-color: transparent;
+            color: var(--white);
+        }
+        
+        /* Character section */
+        .character-section {
+            padding: 5rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: var(--black);
+            margin: 1rem auto;
+        }
+        
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .character-card {
+            background-color: var(--very-light-gray);
+            border: 1px solid var(--medium-gray);
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .character-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .character-image {
+            width: 100%;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--dark-gray);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .character-image.chisa {
+            background-image: url('https://i.pinimg.com/736x/83/19/89/83198977fc60abee676dcab445d9e4f3.jpg');
+        }
+        
+        .character-image.forte {
+            background-image: url('https://i.pinimg.com/474x/bf/bf/61/bfbf617e27dc9cdb5dd2c5f306d45091.jpg');
+        }
+        
+        .character-image.overclock {
+            background-image: url('https://i.pinimg.com/736x/49/c0/a2/49c0a2eaaa2e5c5784d2cf0d7df3f957.jpg');
+        }
+        
+        .character-name {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .character-info {
+            margin-bottom: 1.5rem;
+        }
+        
+        .character-info h3 {
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid var(--medium-gray);
+            padding-bottom: 0.5rem;
+        }
+        
+        .character-info p {
+            margin-bottom: 1rem;
+        }
+        
+        .abilities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .ability {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 0.3rem 0.8rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Stats section */
+        .stats-section {
+            background-color: var(--light-gray);
+            padding: 5rem 1.5rem;
+        }
+        
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .stat-card {
+            background-color: var(--very-light-gray);
+            border: 1px solid var(--medium-gray);
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            color: var(--black);
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 3rem 1.5rem 2rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--medium-gray);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-section a {
+            color: var(--medium-gray);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: var(--white);
+            padding-left: 5px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--dark-gray);
+            color: var(--medium-gray);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 1.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav li {
+                margin: 0.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero {
+                padding: 4rem 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .character-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">VEDARA</div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Characters</a></li>
+                    <li><a href="#">Games</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>CHISA KUCHIBA</h1>
+            <p>Chisa is a pale young woman with long, glossy black hair ending near her waist and narrow pale red eyes with white pupils and a beauty mark under the corner of her right eye.</p>
+            <a href="#character" class="btn">LEARN MORE</a>
+        </div>
+    </section>
+
+    <!-- Character Section -->
+    <section class="character-section" id="character">
+        <h2 class="section-title">Character Profile</h2>
+        <div class="character-grid">
+            <div class="character-card">
+                <div class="character-image chisa"></div>
+                <h3 class="character-name">Chisa Kuchiba</h3>
+                <div class="character-info">
+                    <h3>Appearance</h3>
+                    <p>Chisa is a pale young woman with long, glossy black hair ending near her waist and narrow pale red eyes with white pupils and a beauty mark under the corner of her right eye.</p>
+                    <p>Her Tacet Mark is located on her right upper arm.</p>
+                </div>
+                <div class="character-info">
+                    <h3>Clothing</h3>
+                    <p>Chisa sports a black Japanese sailor uniform with a red neck scarf and white collar; an old Startorch Academy uniform that she still chooses to wear, likely out of habit. Over top she wears a loose-fitting long-sleeved black jacket that fades into a light grey. She wears a pair of shiny black and heeled penny loafer shoes as well as dark socks going halfway up her calves.</p>
+                    <p>Her hair is festooned by a thin red ribbon tied at her right temple. On her neck, she wears a black collar-type Resonator suppression device due to her unstable Forte control.</p>
+                </div>
+                <div class="abilities">
+                    <span class="ability">Eye of Unraveling</span>
+                    <span class="ability">High Risk</span>
+                    <span class="ability">Resonator</span>
+                    <span class="ability">Fortune Control</span>
+                </div>
+            </div>
+            
+            <div class="character-card">
+                <div class="character-image forte"></div>
+                <h3 class="character-name">Forte Examination Report</h3>
+                <div class="character-info">
+                    <h3>Resonance Power</h3>
+                    <p>Eye of Unraveling - Testing indicates Chisa possesses an extraordinary cognitive ability to intuitively discern the structure, form, and movement of observed objects. While employing her Forte, she can analyze objects' weaknesses through her vision and apply precise interference to induce structural destruction.</p>
+                </div>
+                <div class="character-info">
+                    <h3>Notes</h3>
+                    <p>Subject recounts perceiving "threads" that cause objects to unravel. Preliminary analysis suggests these "threads" are not actual entities but visual manifestations exclusive to her vision.</p>
+                </div>
+                <div class="abilities">
+                    <span class="ability">Cognitive Analysis</span>
+                    <span class="ability">Structure Manipulation</span>
+                    <span class="ability">Thread Visualization</span>
+                    <span class="ability">Object Weakness Detection</span>
+                </div>
+            </div>
+            
+            <div class="character-card">
+                <div class="character-image overclock"></div>
+                <h3 class="character-name">Overclock Diagnostic</h3>
+                <div class="character-info">
+                    <h3>Risk Assessment</h3>
+                    <p>The subject's Forte exhibits extensibility and growth potential beyond safety thresholds. Under extreme conditions, she may be capable of analyzing abstract spatial structures, identifying the "threads" of anomalies within anomalous spaces, and inducing reality-distortion events.</p>
+                </div>
+                <div class="character-info">
+                    <h3>Monitoring Measures</h3>
+                    <p>The subject is required to wear a collar-type Resonator suppression device to regulate her Forte and is placed on the observation list of high-risk Resonators.</p>
+                </div>
+                <div class="abilities">
+                    <span class="ability">Reality Distortion</span>
+                    <span class="ability">Spatial Analysis</span>
+                    <span class="ability">High Monitoring</span>
+                    <span class="ability">Suppression Device</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <h2 class="section-title">Character Stats</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">Mutant</div>
+                    <div class="stat-label">Resonator Type</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">Female</div>
+                    <div class="stat-label">Gender</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">Critical</div>
+                    <div class="stat-label">Risk Level</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">NHA-017</div>
+                    <div class="stat-label">Test ID</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>VEDARA</h3>
+                <p>Exploring the depths of virtual worlds and the characters that inhabit them.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Characters</a></li>
+                    <li><a href="#">Games</a></li>
+                    <li><a href="#">Reviews</a></li>
+                    <li><a href="#">News</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Character Database</a></li>
+                    <li><a href="#">Game Guides</a></li>
+                    <li><a href="#">Walkthroughs</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Forums</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li>Email: info@vedara.com</li>
+                    <li>Phone: (62) 895-4107-48661</li>
+                    <li>Address: 123 Game St, Virtual City</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 VEDARA. All rights reserved. This is a fictional website for demonstration purposes.</p>
+        </div>
+    </footer>
+</body>
+</html>
