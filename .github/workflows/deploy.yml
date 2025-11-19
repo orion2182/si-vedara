@@ -17,8 +17,8 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: 27.112.79.93
-          username: vedara
-          key: ${{ secrets.SSH_VEDARA }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
             cd /var/www/html/
