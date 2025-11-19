@@ -14,21 +14,31 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Upload files to server
-        uses: burnett01/rsync-deployments@5.2
+        uses: appleboy/scp-action@master
         with:
-          switches: -avzr --delete
-          path: ./
-          remote_path: /var/www/html/
-          remote_host: ${{ secrets.SSH_IP }}
-          remote_user: ${{ secrets.SSH_USER }}
-          remote_key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.SSH_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          source: "./"
+          target: "/home/vedara/app/"
 
-      - name: Fix permissions
+      - name: Deploy Docker container
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_IP }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
+          port: 22
           script: |
-            sudo chown -R www-data:www-data /var/www/html/
-            sudo chmod -R 755 /var/www/html/
+            cd /home/vedara/app/
+
+            # stop container lama
+            sudo docker stop vedara || true
+            sudo docker rm vedara || true
+
+            # build image baru
+            sudo docker build -t vedara-image .
+
+            # jalankan container baru
+            sudo docker run -d --name vedara -p 80:80 vedara-image
