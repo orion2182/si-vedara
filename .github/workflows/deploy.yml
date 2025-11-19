@@ -1,0 +1,28 @@
+name: Deploy to IDCloudHost
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: 27.112.79.93
+          username: vedara
+          key: ${{ secrets.SSH_VEDARA }}
+          port: 22
+          script: |
+            cd /var/www/html/
+            sudo rm -rf *
+            sudo cp -r /home/vedara/* /var/www/html/
+            sudo chown -R www-data:www-data /var/www/html/
+            sudo chmod -R 755 /var/www/html/
