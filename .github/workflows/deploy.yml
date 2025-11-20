@@ -32,6 +32,10 @@ jobs:
           port: 22
           script: |
             cd /home/vedara/app/
+
+            #hapus yang lama
+            sudo docker stop vedara || true
+            sudo docker rm vedara || true
             
             # build image baru
             sudo docker build -t vedara-image .
